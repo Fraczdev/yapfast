@@ -24,6 +24,9 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
+      - name: Patch livekit-api
+        run: |
+          printf '\n[patch.crates-io]\nlivekit-api = { git = "https://github.com" }\n' >> Cargo.toml
       - name: Update Cargo.lock
         run: nix develop path:./nix#windows --command cargo generate-lockfile
       - run: nix develop path:./nix#windows --command scripts/build-windows discord --no-installer
