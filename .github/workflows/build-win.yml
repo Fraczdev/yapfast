@@ -1,17 +1,28 @@
 name: Build Windows EXE
 on: [workflow_dispatch, push]
 jobs:
-  build:
-    runs-on: windows-latest
-    env:
-      RUSTFLAGS: "-C target-feature=-crt-static"
+  windows:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Build yapfast.exe
-        run: cargo build --release --no-default-features --features desktop,discord --bin yapfast
-      - name: Upload EXE
-        uses: actions/upload-artifact@v4
+      - name: Free disk space
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
         with:
-          name: yapfast-windows
-          path: target/release/yapfast.exe
+          github_access_token: ${{ github.token }}
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/cargo-xwin
+            .local/windows/skia-static-production/build.json
+            .local/windows/skia-static-production/prepared
+          key: windows-skia-${{ hashFiles('nix/flake.lock', 'nix/prepare-windows-skia.py', 'nix/prepare-skia-native.py', 'nix/skia-windows-builder/**') }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+      - run: nix develop path:./nix#windows --command scripts/build-windows discord --no-installer
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: target/dist/discord/Yapfast-*
+          if-no-files-found: error
