@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: windows-latest
     env:
-      SKIA_BINARIES_URL: https://github.com
+      RUSTFLAGS: "-C target-feature=-crt-static"
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
