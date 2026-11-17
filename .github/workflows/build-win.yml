@@ -1,0 +1,15 @@
+name: Build Windows EXE
+on: [workflow_dispatch, push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build yapfast.exe
+        run: cargo build --release --no-default-features --features desktop,discord --bin yapfast
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: yapfast-windows
+          path: target/release/yapfast.exe
