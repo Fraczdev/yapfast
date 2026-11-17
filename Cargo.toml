@@ -23,13 +23,14 @@ resolver = "3"
 default = ["desktop", "discord"]
 matrix = ["yapfast-core/matrix"]
 discord = ["yapfast-core/discord", "dep:qrcode"]
-desktop = ["dep:slint", "dep:yapfast-ui", "dep:skia-safe", "dep:rfd", "dep:memmap2", "dep:emojis", "dep:webbrowser", "dep:i-slint-core", "dep:zbus", "dep:arboard", "dep:image", "dep:tempfile", "dep:wl-clipboard-rs", "dep:wayland-client", "dep:wayland-backend", "dep:wayland-protocols", "dep:ksni", "dep:windows-sys", "dep:windows", "dep:i-slint-renderer-skia", "dep:futures-util", "dep:x11rb", "dep:xkeysym", "dep:reqwest", "dep:rustls", "dep:sha2", "dep:minisign-verify"]
+desktop = ["dep:slint", "dep:yapfast-ui", "dep:skia-safe", "dep:rfd", "dep:memmap2", "dep:emojis", "dep:webbrowser", "dep:i-slint-core", "dep:zbus", "dep:arboard", "dep:image", "dep:tempfile", "dep:wl-clipboard-rs", "dep:wayland-client", "dep:wayland-backend", "dep:wayland-protocols", "dep:ksni", "dep:windows-sys", "dep:windows", "dep:i-slint-renderer-skia", "dep:futures-util", "dep:x11rb", "dep:xkeysym", "dep:reqwest", "dep:rustls", "dep:sha2", "dep:minisign-verify", "dep:boa_engine"]
 # The desktop app with a window that reloads ui/ on each save, for UI work;
 # see docs/building.md.
 live-preview = ["desktop", "yapfast-ui/live-preview"]
 
 [dependencies]
 anyhow.workspace = true
+boa_engine = { version = "0.20", optional = true }
 serde.workspace = true
 serde_json.workspace = true
 slint = { workspace = true, optional = true }

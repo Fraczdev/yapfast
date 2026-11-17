@@ -2031,6 +2031,7 @@ struct Adapter {
     runtime: Arc<BackgroundRuntime>,
     root: PathBuf,
     layout: Layout,
+    plugins: crate::plugins::Manager,
     /// What About knows of newer releases.
     updates: updates::State,
     /// The rows of the emoji picker's grid that may hold pictures it drew, first
@@ -2445,6 +2446,10 @@ impl Adapter {
         app.dispatch(Action::StripTracking(layout.strip_tracking.unwrap_or(true)));
         app.dispatch(Action::HideNameplates(!layout.nameplates.unwrap_or(true)));
         app.dispatch(Action::SetPinned(layout.pinned.clone()));
+        let plugins = crate::plugins::Manager::load(&root);
+        for error in plugins.errors() {
+            tracing::error!(error, "plugin load failed");
+        }
         let notifier = crate::notify::Notifier::start(open_from_notification, &root);
         Ok(Rc::new_cyclic(|weak| {
             RefCell::new(Self {
@@ -2453,6 +2458,7 @@ impl Adapter {
                 runtime,
                 root,
                 layout,
+                plugins,
                 updates: Default::default(),
                 emoji_rows_filled: (0, 0),
                 emoji_grid: Default::default(),

@@ -383,9 +383,10 @@ that.
 
 <br>
 
-Nope. They need a JavaScript runtime, and Yapfast's insides look nothing like
-what they expect. Yapfast will get plugins of its own, though, and open source
-Vencord ones could be ported once it does.
+Not directly. Yapfast now has an embedded JavaScript runtime for opt-in native
+plugins, but Vencord plugins still depend on Discord-internal APIs and cannot
+run unchanged. Native plugins live in the `plugins` folder and declare a
+`plugin.json` manifest with their name, version and JavaScript entry file.
 
 </details>
 

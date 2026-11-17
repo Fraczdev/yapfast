@@ -391,6 +391,7 @@ export component SettingsScreen inherits Rectangle {
         { text: "Sounds", icon: @image-url("icons/volume-2.svg"), id: 5 },
         { text: "Discord", icon: @image-url("icons/discord.svg"), id: 4 },
         { text: "Game activity", icon: @image-url("icons/play.svg"), id: 8 },
+        { text: "Plugins", icon: @image-url("icons/settings.svg"), id: 11 },
         { text: "Advanced", icon: @image-url("icons/settings.svg"), id: 6 },
         { text: "About", icon: @image-url("icons/help-circle.svg"), id: 9 },
     ];
@@ -403,6 +404,7 @@ export component SettingsScreen inherits Rectangle {
         { text: "Messages", icon: @image-url("icons/message-circle.svg"), id: 2 },
         { text: "Notifications", icon: @image-url("icons/bell.svg"), id: 3 },
         { text: "Sounds", icon: @image-url("icons/volume-2.svg"), id: 5 },
+        { text: "Plugins", icon: @image-url("icons/settings.svg"), id: 11 },
         { text: "Advanced", icon: @image-url("icons/settings.svg"), id: 6 },
         { text: "About", icon: @image-url("icons/help-circle.svg"), id: 9 },
     ];
@@ -416,7 +418,7 @@ export component SettingsScreen inherits Rectangle {
                 : root.settings-section == 2 ? "Messages" : root.settings-section == 3 ? "Notifications"
                 : root.settings-section == 4 ? "Discord" : root.settings-section == 5 ? "Sounds"
                 : root.settings-section == 6 ? "Advanced" : root.settings-section == 7 ? "Appearance"
-                : root.settings-section == 9 ? "About" : root.settings-section == 10 ? "Keybinds" : "Game Activity";
+                : root.settings-section == 9 ? "About" : root.settings-section == 10 ? "Keybinds" : root.settings-section == 11 ? "Plugins" : "Game Activity";
             account-name: root.account-name; account-initial: root.account-initial;
             account-tint: root.account-tint; account-picture: root.account-picture;
             with-discord: root.discord-build && !root.preview;
@@ -1613,6 +1615,22 @@ export component AboutSettings inherits VerticalLayout {
         ActionButton { text: "Website"; icon: @image-url("icons/logo.svg"); clicked => { Updates.open-website(); } }
         ActionButton { text: "GitHub"; icon: @image-url("icons/github.svg"); clicked => { Updates.open-github(); } }
         ActionButton { text: "Discord"; icon: @image-url("icons/discord.svg"); clicked => { Updates.open-discord(); } }
+    }
+}
+
+export component PluginSettings inherits VerticalLayout {
+    spacing: 16px;
+    SettingsTitle { text: "Plugins"; }
+    Label { text: "Yapfast plugins run local JavaScript in an embedded runtime. Install plugins by placing each plugin in its own folder under the Yapfast plugins directory."; }
+    SettingsHeading { text: "PLUGIN FORMAT"; }
+    Label { text: "Each plugin folder contains plugin.json with name, version and entry fields, plus the JavaScript entry file. Plugins are opt-in and are validated before they are loaded."; }
+    Rectangle {
+        background: Theme.sidebar; border-radius: 8px; padding: 16px;
+        VerticalLayout {
+            spacing: 8px;
+            Text { text: "Yapfast plugin API"; color: Theme.text; font-size: 15px; font-weight: 700; }
+            Text { text: "The native API is being expanded area by area. Vencord plugins are not loaded directly because their Discord-internal APIs do not exist in Yapfast."; color: Theme.secondary; font-size: 13px; wrap: word-wrap; }
+        }
     }
 }
 

@@ -39,6 +39,8 @@ mod notify;
 #[cfg(feature = "desktop")]
 mod paste;
 #[cfg(feature = "desktop")]
+mod plugins;
+#[cfg(feature = "desktop")]
 mod protocol;
 #[cfg(feature = "desktop")]
 mod tray;
