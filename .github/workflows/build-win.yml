@@ -7,6 +7,10 @@ jobs:
       - name: Free disk space
         run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
       - uses: actions/checkout@v5
+      - name: Convert CRLF to LF
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends dos2unix
+          find nix scripts -type f -exec dos2unix {} +
       - uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ github.token }}
