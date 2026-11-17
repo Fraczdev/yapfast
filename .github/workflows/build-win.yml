@@ -24,6 +24,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
+      - name: Update Cargo.lock
+        run: nix develop path:./nix#windows --command cargo generate-lockfile
       - run: nix develop path:./nix#windows --command scripts/build-windows discord --no-installer
       - uses: actions/upload-artifact@v4
         with:
